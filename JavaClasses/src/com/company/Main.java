@@ -1,7 +1,5 @@
 package com.company;
 
-import com.company.class2.Person;
-
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
