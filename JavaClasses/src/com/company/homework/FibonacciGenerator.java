@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FibonacciGenerator {
-    List<Integer> fibos = new ArrayList<>();
+    List<Double> fibos = new ArrayList<>();
     public FibonacciGenerator() {
-        fibos.add(0,0);
+        fibos.add(0,0d);
     }
 
     public static void main(String[] args) {
@@ -16,15 +16,15 @@ public class FibonacciGenerator {
         }
     }
 
-    public int getFibonacci(int n) {
+    public double getFibonacci(int n) {
         if (fibos.size() > n) {
             return fibos.get(n);
         }
         if (n == 1) {
-            fibos.add(1,1);
+            fibos.add(1,1d);
             return 1;
         } else if (n == 2) {
-            fibos.add(2,1);
+            fibos.add(2,1d);
             return 1;
         }
         fibos.add(n, getFibonacci(n-2) + getFibonacci(n-1));
