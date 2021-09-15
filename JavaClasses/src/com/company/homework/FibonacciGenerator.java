@@ -13,6 +13,8 @@ public class FibonacciGenerator {
         FibonacciGenerator fibonacciGenerator = new FibonacciGenerator();
         for (int i = 3; i<1000; i++) {
             System.out.println("Fibo (" + i  + ") = "+ fibonacciGenerator.getFibonacci(i));
+            System.out.println("FiboWithMath (" + i  + ") = "+ fibonacciGenerator.getFibonacciUsingMath(i));
+            System.out.println("FiboWithFi (" + i  + ") = "+ fibonacciGenerator.getFibonacciUsingFi(i));
         }
     }
 
@@ -29,6 +31,17 @@ public class FibonacciGenerator {
         }
         fibos.add(n, getFibonacci(n-2) + getFibonacci(n-1));
         return getFibonacci(n-2) + getFibonacci(n-1);
+    }
+
+    public double getFibonacciUsingMath(int n) {
+        double innerExp1 = Math.pow(((1 + Math.sqrt(5))/2),n);
+        double innerExp2 = Math.pow(((1 - Math.sqrt(5))/2),n);
+        return 1 / Math.sqrt(5) * (innerExp1 - innerExp2);
+    }
+
+    public double getFibonacciUsingFi(int n) {
+        double fi = (1 + Math.sqrt(5))/2;
+        return 1 / Math.sqrt(5) * (Math.pow(fi,n) - Math.pow(-1/fi, n));
     }
 
 }
