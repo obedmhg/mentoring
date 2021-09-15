@@ -1,5 +1,6 @@
 package com.company.homework;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,9 @@ public class FibonacciGenerator {
     public static void main(String[] args) {
         FibonacciGenerator fibonacciGenerator = new FibonacciGenerator();
         for (int i = 3; i<1000; i++) {
+            JOptionPane.showInputDialog("Write the Fibonacci sequence number that you are looking for:");
             System.out.println("Fibo (" + i  + ") = "+ fibonacciGenerator.getFibonacci(i));
+            System.out.println("Fibo (import)");
         }
     }
 
