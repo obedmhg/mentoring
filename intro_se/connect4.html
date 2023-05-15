@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Connect 4</title>
+  <style>
+    .board {
+      display: inline-block;
+      border-collapse: collapse;
+    }
+
+    .board td {
+      width: 50px;
+      height: 50px;
+      border: 1px solid black;
+    }
+    .disc {
+  border-radius: 50%;
+}
+
+.red {
+  background-color: red;
+}
+
+.black {
+  background-color: black;
+}
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div id="current-player">Current player: RED</div>
+
+  <table class="board">
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+
+<script>
+  $(document).ready(function() {
+    const board = $('.board');
+    const cells = board.find('td');
+    const ROWS = 6;
+    const COLS = 7;
+    const RED = 'red';
+    const BLACK = 'black';
+    let currentPlayer = RED;
+
+    cells.click(function() {
+      const colIndex = $(this).index();
+      const rowIndex = getRowIndex(colIndex);
+      const row = board.find('tr').eq(rowIndex);
+      const targetCell = row.find('td').eq(colIndex);
+
+      if (!targetCell.hasClass(RED) && !targetCell.hasClass(BLACK)) {
+        targetCell.addClass(currentPlayer);
+        if (checkWin(rowIndex, colIndex)) {
+          alert(`${currentPlayer.toUpperCase()} wins!`);
+          resetGame();
+          return;
+        }
+
+        if (checkTie()) {
+          alert('It\'s a tie!');
+          resetGame();
+          return;
+        }
+
+        currentPlayer = currentPlayer === RED ? BLACK : RED;
+        $('#current-player').text(`Current player: ${currentPlayer.toUpperCase()}`);
+      }
+    });
+
+    function getRowIndex(colIndex) {
+      for (let i = ROWS - 1; i >= 0; i--) {
+        if (!board.find('tr').eq(i).find('td').eq(colIndex).hasClass(RED) &&
+            !board.find('tr').eq(i).find('td').eq(colIndex).hasClass(BLACK)) {
+          return i;
+        }
+      }
+      return -1;
+    }
+
+  function checkWin(rowIndex, colIndex) {
+  const targetCell = board.find('tr').eq(rowIndex).find('td').eq(colIndex);
+
+  // Check horizontally
+  let count = 0;
+  for (let i = 0; i < COLS; i++) {
+    if (board.find('tr').eq(rowIndex).find('td').eq(i).hasClass(currentPlayer)) {
+      count++;
+      if (count === 4) return true;
+    } else {
+      count = 0;
+    }
+  }
+
+  // Check vertically
+  count = 0;
+  for (let i = 0; i < ROWS; i++) {
+    if (board.find('tr').eq(i).find('td').eq(colIndex).hasClass(currentPlayer)) {
+      count++;
+      if (count === 4) return true;
+    } else {
+      count = 0;
+    }
+  }
+
+  // Check diagonally
+  count = 0;
+  let rowIndexUp = rowIndex;
+  let colIndexUp = colIndex;
+  while (rowIndexUp > 0 && colIndexUp > 0) {
+    rowIndexUp--;
+    colIndexUp--;
+  }
+
+  while (rowIndexUp < ROWS && colIndexUp < COLS) {
+    if (board.find('tr').eq(rowIndexUp).find('td').eq(colIndexUp).hasClass(currentPlayer)) {
+      count++;
+      if (count === 4) return true;
+    } else {
+      count = 0;
+    }
+    rowIndexUp++;
+    colIndexUp++;
+  }
+
+  count = 0;
+  let rowIndexDown = rowIndex;
+  let colIndexDown = colIndex;
+  while (rowIndexDown < ROWS - 1 && colIndexDown > 0) {
+    rowIndexDown++;
+    colIndexDown--;
+  }
+
+  while (rowIndexDown >= 0 && colIndexDown < COLS) {
+    if (board.find('tr').eq(rowIndexDown).find('td').eq(colIndexDown).hasClass(currentPlayer)) {
+      count++;
+      if (count === 4) return true;
+    } else {
+      count = 0;
+    }
+    rowIndexDown--;
+    colIndexDown++;
+  }
+
+  return false;
+}
+
+
+    function checkTie() {
+  return cells.toArray().every(cell => $(cell).hasClass(RED) || $(cell).hasClass(BLACK));
+    }
+
+    function resetGame() {
+      cells.removeClass(RED).removeClass(BLACK);
+      currentPlayer = RED;
+    }
+  });
+</script>
+
+
+
+</body>
+</html>
